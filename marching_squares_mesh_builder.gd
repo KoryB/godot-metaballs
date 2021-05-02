@@ -51,13 +51,12 @@ func _add_grid_cell_vertices(cell_position: Vector2, grid_cells: Vector2):
         position_normalized.x /= grid_cells.x;
         position_normalized.y /= grid_cells.y;
 
-        var vertex = Vector3(position_normalized.x, position_normalized.y, count);
-        count += 1;
+        var vertex = Vector3(position_normalized.x, position_normalized.y, 0);
 
         _surface_tool.add_uv(offset);
         _surface_tool.add_vertex(vertex);
 
-    _vertex_count += count;
+        _vertex_count += 1;
 
 
 
