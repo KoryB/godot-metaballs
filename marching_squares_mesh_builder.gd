@@ -1,3 +1,6 @@
+extends Reference
+class_name MarchingSquaresMeshBuilder
+
 var _surface_tool: SurfaceTool;
 var _vertex_count: int;
 
