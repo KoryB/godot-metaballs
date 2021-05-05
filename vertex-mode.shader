@@ -7,7 +7,7 @@ uniform sampler2D u_color_ramp; // One dimensional, sampled by clamped_total_inf
 uniform float u_max_intensity;  // Total influence clamped by this amount
 
 
-varying vec2 v_local_space;
+varying float v_influence;
 
 
 // Calculates center
@@ -43,13 +43,12 @@ float sum_ball_influence(vec2 position) {
 
 
 void vertex() {
-	v_local_space = VERTEX;
+	v_influence = sum_ball_influence(VERTEX);
 }
 
 
 void fragment() {
-	float influence = sum_ball_influence(v_local_space);
-	float influence_clamped = clamp(influence, 0.0, u_max_intensity);
+	float influence_clamped = clamp(v_influence, 0.0, u_max_intensity);
 	float influence_clamped_normalized = influence_clamped / u_max_intensity;
 	
 	COLOR = texture(u_color_ramp, vec2(influence_clamped_normalized, 0.0));
