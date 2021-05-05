@@ -16,6 +16,15 @@ float calculate_ball_influence(vec2 position, vec2 ball_position, float radius_s
 	return radius_squared / distance_squared;
 }
 
+// Calculates center
+vec2 calculate_circle_uv(int circle_index) {
+	float texel_width = 1.0 / u_circle_count;
+	float tl_xcoord = float(circle_index) / u_circle_count;
+	float center_xcoord = tl_xcoord + texel_width / 2.0;
+	
+	return vec2(center_xcoord, 0.5);
+}
+
 void vertex() {
 	vec2 cell_positions[4]; // tl, tr, bl, br
 	float influences[4];
@@ -32,7 +41,7 @@ void vertex() {
 		influences[cell_index] = 0.0;
 
 		for (int circle_index = 0; circle_index < circle_count_int; circle_index++) {
-			vec4 circle_position_radius = texture(u_circles_position_radius_squared, vec2(float(circle_index) / u_circle_count, 0.0));
+			vec4 circle_position_radius = texture(u_circles_position_radius_squared, calculate_circle_uv(circle_index));
 			vec2 circle_position = circle_position_radius.xy;
 			float circle_radius_squared = circle_position_radius.z;
 			
