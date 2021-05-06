@@ -12,17 +12,17 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "MarchingSquaresCircle",
 "language": "GDScript",
-"path": "res://marching_squares_circle.gd"
+"path": "res://Metaballs/marching_squares_circle.gd"
 }, {
 "base": "MeshInstance2D",
 "class": "MarchingSquaresGrid",
 "language": "GDScript",
-"path": "res://marching_squares_grid.gd"
+"path": "res://Metaballs/marching_squares_grid.gd"
 }, {
 "base": "Reference",
 "class": "MarchingSquaresMeshBuilder",
 "language": "GDScript",
-"path": "res://marching_squares_mesh_builder.gd"
+"path": "res://Metaballs/marching_squares_mesh_builder.gd"
 } ]
 _global_script_class_icons={
 "MarchingSquaresCircle": "",
@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Metaballs"
-run/main_scene="res://MarchingSquaresGrid.tscn"
+run/main_scene="res://Metaballs/MarchingSquaresGrid.tscn"
 config/icon="res://icon.png"
 
 [rendering]

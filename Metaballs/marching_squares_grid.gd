@@ -5,9 +5,9 @@ class_name MarchingSquaresGrid
 const MarchingSquaresMeshBuilder := preload("marching_squares_mesh_builder.gd");
 const MarchingSquaresCircle := preload("marching_squares_circle.gd");
 
-const MarchingSquaresModeShader := preload("marching-squares-mode.shader");
-const VertexModeShader := preload("vertex-mode.shader");
-const FragmentModeShader := preload("fragment-mode.shader");
+const MarchingSquaresModeShaderMaterial := preload("marching_squares_render_mode_shader_material.tres");
+const VertexModeShaderMaterial := preload("vertex_render_mode_shader_material.tres");
+const FragmentModeShaderMaterial := preload("fragment_render_mode_shader_material.tres");
 
 enum RenderMode { MARCHING_SQUARES, VERTEX_COLORS, FRAGMENT_COLORS };
 
@@ -47,7 +47,7 @@ func _init_render_mode():
 		_local_cell_size.x = 1.0 / grid_cells.x;
 		_local_cell_size.y = 1.0 / grid_cells.y;
 
-		material.shader = MarchingSquaresModeShader
+		material = MarchingSquaresModeShaderMaterial
 
 	elif render_mode == RenderMode.VERTEX_COLORS:
 		mesh = _builder.build_mesh(grid_cells);
@@ -55,7 +55,7 @@ func _init_render_mode():
 		_local_cell_size.x = 1.0 / grid_cells.x;
 		_local_cell_size.y = 1.0 / grid_cells.y;
 
-		material.shader = VertexModeShader;
+		material = VertexModeShaderMaterial;
 
 	elif render_mode == RenderMode.FRAGMENT_COLORS:
 		mesh = _builder.build_mesh(Vector2(1, 1));
@@ -63,9 +63,7 @@ func _init_render_mode():
 		_local_cell_size.x = 1.0;
 		_local_cell_size.y = 1.0;
 
-		material.shader = FragmentModeShader
-
-
+		material = FragmentModeShaderMaterial;
 
 
 func _init_circle_data():
