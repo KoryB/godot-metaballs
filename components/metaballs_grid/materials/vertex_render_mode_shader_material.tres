@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
-[ext_resource path="res://components/metaballs_grid/materials/shaders/vertex-mode.shader" type="Shader" id=1]
+[ext_resource path="res://components/metaballs_grid/materials/shaders/vertex_mode.shader" type="Shader" id=1]
 [ext_resource path="res://components/metaballs_grid/materials/textures/color_ramp_texture_template.tres" type="Texture" id=2]
 
 [sub_resource type="ImageTexture" id=1]
