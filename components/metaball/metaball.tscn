@@ -4,4 +4,4 @@
 
 [node name="Metaball" type="Node2D"]
 script = ExtResource( 1 )
-radius = 2.0
+radius = 16.0

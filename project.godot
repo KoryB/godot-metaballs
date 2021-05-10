@@ -33,8 +33,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Metaballs"
-run/main_scene="res://components/metaballs_grid/metaballs_grid.tscn"
+run/main_scene="res://example_scenes/mouse_placer.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/height=768
+window/size/resizable=false
 
 [rendering]
 

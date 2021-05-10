@@ -8,12 +8,12 @@ const VertexModeShaderMaterial := preload("../materials/vertex_render_mode_shade
 const FragmentModeShaderMaterial := preload("../materials/fragment_render_mode_shader_material.tres");
 
 
-enum RenderMode { MARCHING_SQUARES, VERTEX_COLORS, FRAGMENT_COLORS };
+enum RenderMode { MARCHING_SQUARES, VERTEX, FRAGMENT };
 
 
 export var grid_cells := Vector2(32, 32) setget _set_grid_cells;
 export var grid_size := Vector2(256, 256) setget _set_grid_size;
-export(RenderMode) var render_mode := RenderMode.FRAGMENT_COLORS setget _set_render_mode;
+export(RenderMode) var render_mode := RenderMode.FRAGMENT setget _set_render_mode;
 
 var _builder: MetaballsGridMeshBuilder;
 var _is_children_different := false;
@@ -44,13 +44,13 @@ func _init_render_mode():
 
 		material = MarchingSquaresModeShaderMaterial
 
-	elif render_mode == RenderMode.VERTEX_COLORS:
+	elif render_mode == RenderMode.VERTEX:
 		mesh = _builder.build_mesh(grid_cells, grid_size);
 		_local_cell_size = grid_size / grid_cells;
 
 		material = VertexModeShaderMaterial;
 
-	elif render_mode == RenderMode.FRAGMENT_COLORS:
+	elif render_mode == RenderMode.FRAGMENT:
 		mesh = _builder.build_mesh(Vector2(1, 1), grid_size);
 		_local_cell_size = Vector2(1, 1);
 
@@ -119,7 +119,7 @@ func _blit_circle_data_to_image():
 	var circles = get_circles();
 
 	for index in range(circles.size()):
-		var circle: Metaball = circles[index];
+		var circle = circles[index];
 		var pixel := _get_circle_pixel_transformed(circle);
 				
 		_circles_position_radius_squared_image.lock();
