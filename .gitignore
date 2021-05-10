@@ -12,3 +12,6 @@ data_*/
 
 # VSCode-Specific ignores
 .vscode
+
+# Ignore build folder
+build/
