@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/marching_squares_template.png-caf71083e541a7bedf1b529b62947098.stex"
+path="res://.import/marching_squares_template.png-6f0ef5ddb4862fa850ef6fd148378818.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Metaballs/marching_squares_template.png"
-dest_files=[ "res://.import/marching_squares_template.png-caf71083e541a7bedf1b529b62947098.stex" ]
+source_file="res://metaballs/materials/textures/marching_squares_template.png"
+dest_files=[ "res://.import/marching_squares_template.png-6f0ef5ddb4862fa850ef6fd148378818.stex" ]
 
 [params]
 

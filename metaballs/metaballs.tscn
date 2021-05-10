@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Metaballs/marching_squares_grid.gd" type="Script" id=1]
-[ext_resource path="res://vertex_render_mode_shader_material.tres" type="Material" id=2]
-[ext_resource path="res://Metaballs/marching_squares_template.png" type="Texture" id=3]
+[ext_resource path="res://metaballs/materials/vertex_render_mode_shader_material.tres" type="Material" id=1]
+[ext_resource path="res://metaballs/scripts/metaballs.gd" type="Script" id=2]
+[ext_resource path="res://metaballs/materials/textures/marching_squares_template.png" type="Texture" id=3]
 
 [sub_resource type="ArrayMesh" id=1]
 surfaces/0 = {
@@ -17,11 +17,11 @@ surfaces/0 = {
 "vertex_count": 1024
 }
 
-[node name="MarchingSquaresGrid" type="MeshInstance2D"]
-material = ExtResource( 2 )
+[node name="Metaballs" type="MeshInstance2D"]
+material = ExtResource( 1 )
 scale = Vector2( 256, 256 )
 mesh = SubResource( 1 )
 texture = ExtResource( 3 )
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 grid_cells = Vector2( 16, 16 )
 render_mode = 1

@@ -1,9 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=6 format=2]
 
-[ext_resource path="res://Metaballs/fragment-mode.shader" type="Shader" id=1]
-[ext_resource path="res://Metaballs/color_ramp_template.tres" type="Gradient" id=2]
+[ext_resource path="res://metaballs/materials/textures/color_ramp_template.tres" type="Gradient" id=1]
+[ext_resource path="res://metaballs/materials/shaders/fragment-mode.shader" type="Shader" id=2]
 
-[sub_resource type="Image" id=3]
+[sub_resource type="Image" id=4]
 data = {
 "data": PoolByteArray( 181, 180, 52, 62, 181, 180, 52, 62, 129, 128, 128, 61, 0, 0, 128, 63, 129, 128, 0, 63, 226, 225, 97, 63, 129, 128, 128, 60, 0, 0, 128, 63 ),
 "format": "RGBAFloat",
@@ -13,15 +13,15 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id=2]
-image = SubResource( 3 )
+image = SubResource( 4 )
 size = Vector2( 2, 1 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = ExtResource( 2 )
+[sub_resource type="GradientTexture" id=3]
+gradient = ExtResource( 1 )
 
 [resource]
-shader = ExtResource( 1 )
+shader = ExtResource( 2 )
 shader_param/u_circle_count = 2
 shader_param/u_max_intensity = 2.0
 shader_param/u_circles_position_radius_squared = SubResource( 2 )
-shader_param/u_color_ramp = SubResource( 4 )
+shader_param/u_color_ramp = SubResource( 3 )
