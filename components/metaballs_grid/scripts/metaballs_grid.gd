@@ -8,33 +8,29 @@ const MarchingSquaresModeShaderMaterial := preload("../materials/marching_square
 const VertexModeShaderMaterial := preload("../materials/vertex_render_mode_shader_material.tres");
 const FragmentModeShaderMaterial := preload("../materials/fragment_render_mode_shader_material.tres");
 
+
 enum RenderMode { MARCHING_SQUARES, VERTEX_COLORS, FRAGMENT_COLORS };
+
 
 export var grid_cells := Vector2(32, 32);
 export(RenderMode) var render_mode := RenderMode.FRAGMENT_COLORS setget _set_render_mode;
 
-var circles := Array(); # Of Circle objects
 
 var _builder: MetaballsGridMeshBuilder;
+var _is_children_different := false;
+var _circles_cached := [];
 
+# Uniforms
 var _local_cell_size: Vector2;
 var _circles_position_radius_squared_image: Image;
 var _circles_position_radius_squared_texture: ImageTexture;
 
-var _editor_time := 0.0;
-
-
-func _enter_tree():
-	if Engine.editor_hint:
-		circles = [
-			Metaball.new(Vector2(0.0, 0.0), 0.25),
-			Metaball.new(Vector2(0.5, 0.0), 0.125),
-		];
-
 
 func _ready():
-		_init_render_mode();
-		_init_circle_data();
+	_is_children_different = get_child_count() != 0;
+
+	_init_render_mode();
+	_init_circle_data();
 
 
 func _init_render_mode():
@@ -66,6 +62,8 @@ func _init_render_mode():
 
 
 func _init_circle_data():
+	var circles = get_circles();
+
 	_circles_position_radius_squared_image = Image.new();
 	_circles_position_radius_squared_image.create(circles.size(), 1, false, Image.FORMAT_RGBAF);
 
@@ -75,30 +73,31 @@ func _init_circle_data():
 	_sync_circle_data()
 
 
-func _process(delta):
+func _process(_delta):
 	material.set_shader_param("u_local_cell_size", _local_cell_size);
 	material.set_shader_param('u_circles_position_radius_squared', _circles_position_radius_squared_texture);
-	material.set_shader_param('u_circle_count', circles.size());
-
-	_process_editor(delta);
+	material.set_shader_param('u_circle_count', get_circle_count());
 
 	_sync_circle_data();
 
 
 
+func get_circles() -> Array:
+	if not _is_children_different:
+		return _circles_cached;
+
+	_is_children_different = false;
+	_circles_cached = []
+
+	for child in get_children():
+		if _is_valid_metaball(child):
+			_circles_cached.append(child);
+
+	return _circles_cached;
+
+
 func get_circle_count() -> int:
-	return circles.size();
-
-	
-func _process_editor(delta):
-	if Engine.editor_hint:
-		_editor_time += delta;
-
-		circles[0].position += Vector2(1, 1) * delta;
-		circles[1].position.y = 0.5*cos(_editor_time) + 0.5;
-
-		if circles[0].position.y > 1.0:
-			circles[0].position *= 0.0;
+	return get_circles().size();
 
 
 func _sync_circle_data():
@@ -116,9 +115,12 @@ func _sync_circle_data():
 
 
 func _blit_circle_data_to_image():
+	var circles = get_circles();
+
 	for index in range(circles.size()):
 		var circle: Metaball = circles[index];
 		var pixel := circle.get_pixel()
+		print(pixel);
 				
 		_circles_position_radius_squared_image.lock();
 		_circles_position_radius_squared_image.set_pixel(index, 0, pixel);
@@ -126,8 +128,23 @@ func _blit_circle_data_to_image():
 
 
 func _set_render_mode(new_render_mode: int):
-	print({'new_render_mode': new_render_mode, 'render_mode': render_mode});
-
 	if new_render_mode != render_mode:
 		render_mode = new_render_mode;
 		_init_render_mode();
+
+
+func _is_valid_metaball(o: Object) -> bool:
+	return o.has_method("get_pixel");
+
+
+# Overrides
+func add_child(node: Node, legible_unique_name: bool = false) -> void:
+	.add_child(node, legible_unique_name);
+
+	_is_children_different = true;
+
+
+func remove_child(node: Node) -> void:
+	.remove_child(node);
+
+	_is_children_different = true;
