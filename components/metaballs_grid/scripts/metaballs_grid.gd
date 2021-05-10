@@ -1,4 +1,3 @@
-tool
 extends MeshInstance2D
 class_name MetaballsGrid
 
@@ -120,7 +119,6 @@ func _blit_circle_data_to_image():
 	for index in range(circles.size()):
 		var circle: Metaball = circles[index];
 		var pixel := circle.get_pixel()
-		print(pixel);
 				
 		_circles_position_radius_squared_image.lock();
 		_circles_position_radius_squared_image.set_pixel(index, 0, pixel);
