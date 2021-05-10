@@ -1,13 +1,27 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+[gd_resource type="ShaderMaterial" load_steps=5 format=2]
 
 [ext_resource path="res://components/metaballs_grid/materials/shaders/vertex_mode.shader" type="Shader" id=1]
 [ext_resource path="res://components/metaballs_grid/materials/textures/color_ramp_texture_template.tres" type="Texture" id=2]
 
-[sub_resource type="ImageTexture" id=1]
+[sub_resource type="Image" id=3]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "RGBAFloat",
+"height": 1,
+"mipmaps": false,
+"width": 2
+}
+
+[sub_resource type="ImageTexture" id=2]
+image = SubResource( 3 )
+size = Vector2( 2, 1 )
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/u_circle_count = 0
+shader_param/u_circle_count = 2
 shader_param/u_max_intensity = 2.0
-shader_param/u_circles_position_radius_squared = SubResource( 1 )
+shader_param/u_circle_position_offset = null
+shader_param/u_circle_position_scale = null
+shader_param/u_circle_radius_squared_scale = null
+shader_param/u_circles_position_radius_squared = SubResource( 2 )
 shader_param/u_color_ramp = ExtResource( 2 )

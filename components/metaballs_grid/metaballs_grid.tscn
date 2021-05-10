@@ -23,11 +23,13 @@ material = ExtResource( 3 )
 mesh = SubResource( 1 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
-grid_cells = Vector2( 16, 16 )
+grid_cells = Vector2( 64, 64 )
+grid_size = Vector2( 512, 512 )
+render_mode = 1
 
 [node name="Metaball" parent="." instance=ExtResource( 4 )]
-position = Vector2( 64, 64 )
-radius = 16.0
+position = Vector2( 0, 64 )
+radius = 23.0
 
 [node name="Metaball2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 128, 220 )
