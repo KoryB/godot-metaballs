@@ -3,7 +3,7 @@ extends MeshInstance2D
 class_name MarchingSquaresGrid
 
 const MarchingSquaresMeshBuilder := preload("marching_squares_mesh_builder.gd");
-const MarchingSquaresCircle := preload("marching_squares_circle.gd");
+const Metaball := preload("marching_squares_circle.gd");
 
 const MarchingSquaresModeShaderMaterial := preload("marching_squares_render_mode_shader_material.tres");
 const VertexModeShaderMaterial := preload("vertex_render_mode_shader_material.tres");
@@ -28,8 +28,8 @@ var _editor_time := 0.0;
 func _enter_tree():
 	if Engine.editor_hint:
 		circles = [
-			MarchingSquaresCircle.new(Vector2(0.0, 0.0), 0.25),
-			MarchingSquaresCircle.new(Vector2(0.5, 0.0), 0.125),
+			Metaball.new(Vector2(0.0, 0.0), 0.25),
+			Metaball.new(Vector2(0.5, 0.0), 0.125),
 		];
 
 
@@ -114,7 +114,7 @@ func _sync_circle_data():
 
 func _blit_circle_data_to_image():
 	for index in range(circles.size()):
-		var circle: MarchingSquaresCircle = circles[index];
+		var circle: Metaball = circles[index];
 		var pixel := circle.get_pixel()
 				
 		_circles_position_radius_squared_image.lock();

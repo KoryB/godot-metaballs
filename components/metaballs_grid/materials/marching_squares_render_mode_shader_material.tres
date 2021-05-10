@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
-[ext_resource path="res://metaballs/materials/shaders/vertex-mode.shader" type="Shader" id=1]
+[ext_resource path="res://components/metaballs_grid/materials/shaders/marching-squares-mode.shader" type="Shader" id=1]
 
 [sub_resource type="Image" id=3]
 data = {
@@ -17,6 +17,6 @@ size = Vector2( 2, 1 )
 
 [resource]
 shader = ExtResource( 1 )
+shader_param/u_local_cell_size = null
 shader_param/u_circle_count = 2
-shader_param/u_max_intensity = null
 shader_param/u_circles_position_radius_squared = SubResource( 2 )

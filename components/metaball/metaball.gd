@@ -1,5 +1,5 @@
 extends Reference
-class_name MarchingSquaresCircle
+class_name Metaball
 
 
 var position := Vector2(0, 0) setget set_position, get_position;

@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=6 format=2]
 
-[ext_resource path="res://metaballs/materials/textures/color_ramp_template.tres" type="Gradient" id=1]
-[ext_resource path="res://metaballs/materials/shaders/fragment-mode.shader" type="Shader" id=2]
+[ext_resource path="res://components/metaballs_grid/materials/textures/color_ramp_template.tres" type="Gradient" id=1]
+[ext_resource path="res://components/metaballs_grid/materials/shaders/fragment-mode.shader" type="Shader" id=2]
 
 [sub_resource type="Image" id=4]
 data = {
