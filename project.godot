@@ -15,19 +15,19 @@ _global_script_classes=[ {
 "path": "res://components/metaball/metaball.gd"
 }, {
 "base": "MeshInstance2D",
-"class": "MarchingSquaresGrid",
+"class": "MetaballsGrid",
 "language": "GDScript",
 "path": "res://components/metaballs_grid/scripts/metaballs_grid.gd"
 }, {
 "base": "Reference",
-"class": "MarchingSquaresMeshBuilder",
+"class": "MetaballsGridMeshBuilder",
 "language": "GDScript",
 "path": "res://components/metaballs_grid/scripts/metaballs_grid_mesh_builder.gd"
 } ]
 _global_script_class_icons={
 "Metaball": "",
-"MarchingSquaresGrid": "",
-"MarchingSquaresMeshBuilder": ""
+"MetaballsGrid": "",
+"MetaballsGridMeshBuilder": ""
 }
 
 [application]

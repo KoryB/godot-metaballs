@@ -1,5 +1,5 @@
 extends Reference
-class_name MarchingSquaresMeshBuilder
+class_name MetaballsGridMeshBuilder
 
 var _surface_tool: SurfaceTool;
 var _vertex_count: int;
@@ -47,8 +47,6 @@ func _build_grid_cell(cell_position: Vector2, grid_cells: Vector2):
 
 
 func _add_grid_cell_vertices(cell_position: Vector2, grid_cells: Vector2):
-    var count = 0;
-
     for offset in square_offsets:
         var position_normalized = cell_position + offset;
         position_normalized.x /= grid_cells.x;

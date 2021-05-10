@@ -3,7 +3,7 @@
 [ext_resource path="res://components/metaballs_grid/materials/textures/color_ramp_template.tres" type="Gradient" id=1]
 [ext_resource path="res://components/metaballs_grid/materials/shaders/fragment-mode.shader" type="Shader" id=2]
 
-[sub_resource type="Image" id=4]
+[sub_resource type="Image" id=1]
 data = {
 "data": PoolByteArray( 181, 180, 52, 62, 181, 180, 52, 62, 129, 128, 128, 61, 0, 0, 128, 63, 129, 128, 0, 63, 226, 225, 97, 63, 129, 128, 128, 60, 0, 0, 128, 63 ),
 "format": "RGBAFloat",
@@ -13,7 +13,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id=2]
-image = SubResource( 4 )
+image = SubResource( 1 )
 size = Vector2( 2, 1 )
 
 [sub_resource type="GradientTexture" id=3]

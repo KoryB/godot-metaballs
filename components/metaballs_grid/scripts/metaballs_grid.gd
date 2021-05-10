@@ -1,13 +1,12 @@
 tool
 extends MeshInstance2D
-class_name MarchingSquaresGrid
+class_name MetaballsGrid
 
-const MarchingSquaresMeshBuilder := preload("marching_squares_mesh_builder.gd");
-const Metaball := preload("marching_squares_circle.gd");
+const MetaballsGridMeshBuilder := preload("metaballs_grid_mesh_builder.gd");
 
-const MarchingSquaresModeShaderMaterial := preload("marching_squares_render_mode_shader_material.tres");
-const VertexModeShaderMaterial := preload("vertex_render_mode_shader_material.tres");
-const FragmentModeShaderMaterial := preload("fragment_render_mode_shader_material.tres");
+const MarchingSquaresModeShaderMaterial := preload("../materials/marching_squares_render_mode_shader_material.tres");
+const VertexModeShaderMaterial := preload("../materials/vertex_render_mode_shader_material.tres");
+const FragmentModeShaderMaterial := preload("../materials/fragment_render_mode_shader_material.tres");
 
 enum RenderMode { MARCHING_SQUARES, VERTEX_COLORS, FRAGMENT_COLORS };
 
@@ -16,7 +15,7 @@ export(RenderMode) var render_mode := RenderMode.FRAGMENT_COLORS setget _set_ren
 
 var circles := Array(); # Of Circle objects
 
-var _builder: MarchingSquaresMeshBuilder;
+var _builder: MetaballsGridMeshBuilder;
 
 var _local_cell_size: Vector2;
 var _circles_position_radius_squared_image: Image;
@@ -39,7 +38,7 @@ func _ready():
 
 
 func _init_render_mode():
-	_builder = MarchingSquaresMeshBuilder.new();
+	_builder = MetaballsGridMeshBuilder.new();
 
 	if render_mode == RenderMode.MARCHING_SQUARES:
 		mesh = _builder.build_mesh(grid_cells);
@@ -86,6 +85,11 @@ func _process(delta):
 	_sync_circle_data();
 
 
+
+func get_circle_count() -> int:
+	return circles.size();
+
+	
 func _process_editor(delta):
 	if Engine.editor_hint:
 		_editor_time += delta;
@@ -95,7 +99,6 @@ func _process_editor(delta):
 
 		if circles[0].position.y > 1.0:
 			circles[0].position *= 0.0;
-
 
 
 func _sync_circle_data():
@@ -128,7 +131,3 @@ func _set_render_mode(new_render_mode: int):
 	if new_render_mode != render_mode:
 		render_mode = new_render_mode;
 		_init_render_mode();
-
-
-func get_circle_count() -> int:
-	return circles.size();
