@@ -6,7 +6,7 @@ const FRAGMENT_MODE_INDEX = 2;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("item_selected", self, "_on_item_selected");
+	var _unused = self.connect("item_selected", self, "_on_item_selected");
 
 
 func _on_item_selected(index: int):

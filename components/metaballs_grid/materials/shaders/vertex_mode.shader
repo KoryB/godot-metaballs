@@ -8,6 +8,7 @@ uniform float u_max_intensity;  // Total influence clamped by this amount
 
 uniform vec2 u_circle_position_offset; // Workaround 0..1 clamping
 uniform vec2 u_circle_position_scale; 
+uniform float u_circle_radius_squared_offset;
 uniform float u_circle_radius_squared_scale;
 
 
@@ -26,7 +27,7 @@ vec2 calculate_circle_uv(int circle_index) {
 vec4 get_circle_position_radius(int circle_index) {
 	vec4 raw_circle_position_radius = texture(u_circles_position_radius_squared, calculate_circle_uv(circle_index));
 	vec2 position = u_circle_position_scale * raw_circle_position_radius.xy + u_circle_position_offset;
-	float radius_squared = u_circle_radius_squared_scale * raw_circle_position_radius.z;
+	float radius_squared = u_circle_radius_squared_scale * raw_circle_position_radius.z + u_circle_radius_squared_offset;
 	
 	vec4 scaled_circle_position_radius = vec4(
 		position,
@@ -48,7 +49,9 @@ float sum_ball_influence(vec2 position) {
 	int circle_count_int = int(u_circle_count);
 	float influence = 0.0;
 
-	for (int circle_index = 0; circle_index < circle_count_int; circle_index++) {
+	for (int circle_index = 0; circle_index < 1000; circle_index++) {
+		if (circle_index >= circle_count_int) { break; } // workaround for webgl hardware
+		
 		vec4 circle_position_radius = get_circle_position_radius(circle_index);
 		vec2 circle_position = circle_position_radius.xy;
 		float circle_radius_squared = circle_position_radius.z;

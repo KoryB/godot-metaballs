@@ -3,7 +3,7 @@
 [ext_resource path="res://components/metaballs_grid/materials/textures/color_ramp_texture_template.tres" type="Texture" id=1]
 [ext_resource path="res://components/metaballs_grid/materials/shaders/fragment_mode.shader" type="Shader" id=2]
 
-[sub_resource type="Image" id=3]
+[sub_resource type="Image" id=1]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "RGBAFloat",
@@ -13,7 +13,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id=2]
-image = SubResource( 3 )
+image = SubResource( 1 )
 size = Vector2( 2, 1 )
 
 [resource]
@@ -22,6 +22,7 @@ shader_param/u_circle_count = 2
 shader_param/u_max_intensity = 2.0
 shader_param/u_circle_position_offset = null
 shader_param/u_circle_position_scale = null
+shader_param/u_circle_radius_squared_offset = null
 shader_param/u_circle_radius_squared_scale = null
 shader_param/u_circles_position_radius_squared = SubResource( 2 )
 shader_param/u_color_ramp = ExtResource( 1 )

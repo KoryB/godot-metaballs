@@ -23,6 +23,7 @@ var _circles_cached := [];
 var _local_cell_size: Vector2;
 var _circle_position_offset := Vector2(0, 0);
 var _circle_position_scale := Vector2(0, 0);
+var _circle_radius_squared_offset := 0.0;
 var _circle_radius_squared_scale := 0.0;
 var _circles_position_radius_squared_image: Image;
 var _circles_position_radius_squared_texture: ImageTexture;
@@ -62,18 +63,21 @@ func _init_circle_data():
 
 	_circles_position_radius_squared_image = Image.new();
 	_circles_position_radius_squared_image.create(circles.size(), 1, false, Image.FORMAT_RGBAF);
+	
 
 	_circles_position_radius_squared_texture = ImageTexture.new();
-	_circles_position_radius_squared_texture.create_from_image(_circles_position_radius_squared_image);
+	_circles_position_radius_squared_texture.create_from_image(_circles_position_radius_squared_image, 0); # Disable all flags
 
 	_sync_circle_data()
 
 
-func _process(_delta):
+# physics process for fixed framerate
+func _physics_process(_delta):
 	material.set_shader_param("u_local_cell_size", _local_cell_size);
 
 	material.set_shader_param("u_circle_position_offset", _circle_position_offset);
 	material.set_shader_param("u_circle_position_scale", _circle_position_scale);
+	material.set_shader_param("u_circle_radius_squared_offset", _circle_radius_squared_offset);
 	material.set_shader_param("u_circle_radius_squared_scale", _circle_radius_squared_scale);
 	material.set_shader_param('u_circles_position_radius_squared', _circles_position_radius_squared_texture);
 	material.set_shader_param('u_circle_count', get_circle_count());
@@ -108,7 +112,7 @@ func _sync_circle_data():
 	_blit_circle_data_to_image();
 	
 	if is_resize_needed:
-		_circles_position_radius_squared_texture.create_from_image(_circles_position_radius_squared_image);
+		_circles_position_radius_squared_texture.create_from_image(_circles_position_radius_squared_image, 0);
 	else:
 		_circles_position_radius_squared_texture.set_data(_circles_position_radius_squared_image);
 
@@ -150,22 +154,43 @@ func _is_valid_metaball(o: Object) -> bool:
 
 
 func _calculate_circle_transform_uniforms():
-	var min_position = Vector2(INF, INF);
-	var max_position = Vector2(-INF, -INF);
-	var max_radius_squared = 0;
+	if get_circle_count() == 0:
+		_circle_position_offset = Vector2.ZERO;
+		_circle_position_scale = Vector2.ONE;
+		_circle_radius_squared_offset = 0;
+		_circle_radius_squared_scale = 1;
+	else:
+		var min_position = Vector2(INF, INF);
+		var max_position = Vector2(-INF, -INF);
+		var min_radius_squared = INF;
+		var max_radius_squared = -INF;
 
-	for circle in get_circles():
-		var raw_pixel = circle.get_pixel();
-		var pos = Vector2(raw_pixel.r, raw_pixel.g);
-		var radius_squared = raw_pixel.b;
+		for circle in get_circles():
+			var raw_pixel = circle.get_pixel();
+			var pos = Vector2(raw_pixel.r, raw_pixel.g);
+			var radius_squared = raw_pixel.b;
 
-		min_position = minv(min_position, pos);
-		max_position = maxv(max_position, pos);
-		max_radius_squared = max(max_radius_squared, radius_squared);
-
-	_circle_position_offset = min_position;
-	_circle_position_scale = max_position - min_position;
-	_circle_radius_squared_scale = max_radius_squared;
+			min_position = minv(min_position, pos);
+			max_position = maxv(max_position, pos);
+			min_radius_squared = min(min_radius_squared, radius_squared)
+			max_radius_squared = max(max_radius_squared, radius_squared);
+			
+		_circle_position_offset = min_position;
+		_circle_position_scale = max_position - min_position;
+		_circle_radius_squared_offset = min_radius_squared
+		_circle_radius_squared_scale = max_radius_squared - min_radius_squared;
+		
+		if is_equal_approx(_circle_position_scale.x, 0.0):
+			_circle_position_scale.x = _circle_position_offset.x
+			_circle_position_offset.x = 0.0;
+			
+		if is_equal_approx(_circle_position_scale.y, 0.0):
+			_circle_position_scale.y = _circle_position_offset.y
+			_circle_position_offset.y = 0.0;
+			
+		if is_equal_approx(_circle_radius_squared_scale, 0.0):
+			_circle_radius_squared_scale = _circle_radius_squared_offset;
+			_circle_radius_squared_offset = 0.0;
 
 
 func _get_circle_pixel_transformed(circle: Object) -> Color:
@@ -174,7 +199,7 @@ func _get_circle_pixel_transformed(circle: Object) -> Color:
 	var radius_squared = raw_pixel.b;
 
 	var transformed_position = (position - _circle_position_offset) / _circle_position_scale;
-	var transformed_radius_squared = radius_squared / _circle_radius_squared_scale;
+	var transformed_radius_squared = (radius_squared - _circle_radius_squared_offset) / _circle_radius_squared_scale;
 
 	return Color(transformed_position.x, transformed_position.y, transformed_radius_squared, raw_pixel.a);
 
